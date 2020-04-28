@@ -1,0 +1,31 @@
+transformer le code procédural en POO
+                                   |> des objets qui s'envoient des messages
+                                            |>état(attributs)+comportement(methodes)
+                        |> une suite d'opération (appel de fonctions)
+                        	|> change l'état du programme         
+Approche domaine applicatif -> quelles sont les informations (données)à traiter
+	Vue statique
+		ZipCode : une suite de 5 chiffres : [0-9]+5
+		
+		BarCode : ??? 5 valeurs dans l'ensemble 
+		chiffre/poids 7 4 2 1 0
+					1 0 0 0 1 1  3
+					2 0 0 1 0 1  5
+					3 0 0 1 1 0   6
+					4 0 1 0 0 1   9
+					5 0 1 0 1 0  10
+					6 0 1 1 0 0  12
+					7 1 0 0 0 1  17
+					8 1 0 0 1 0  18
+					9 1 0 1 0 0  20
+					0 1 1 0 0 0  28
+	
+	Vue dynamique
+		instancier un ZipCode convertir en BarCode
+			
+		
+		Mauvaise analyse ! c'est la representation VISUELLE du BarCode --> View -- BarCodeView
+		 une suite de symbole : '|' ':' ' '
+				commence par '|' ' '
+				un chiffre du zip code : 5 symboles  suivis de ' '    
+				termine par '|'
