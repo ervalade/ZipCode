@@ -7,30 +7,23 @@
 
 #include <BarCode.h>
 
-const std::map<Digit, Code> BarCode::convert = { { Digit::one, Code::one },
-		{ Digit::two, Code::two }, {Digit:: three, Code::three }, { Digit::four, Code::four },
-		{ Digit::five, Code::five }, { Digit::six, Code::six }, { Digit::seven, Code::seven }, { Digit::eight,
-				Code::eight }, { Digit::nine, Code::nine }, { Digit::zero, Code::zero } };
+const std::map<Digit, Code> BarCode::convert = { { Digit::one, Code::one }, {
+		Digit::two, Code::two }, { Digit::three, Code::three }, { Digit::four,
+		Code::four }, { Digit::five, Code::five }, { Digit::six, Code::six }, {
+		Digit::seven, Code::seven }, { Digit::eight, Code::eight }, {
+		Digit::nine, Code::nine }, { Digit::zero, Code::zero } };
 
-BarCode::BarCode(ZipCode zipCode):value({0}) {
+BarCode::BarCode(ZipCode zipCode) :
+		value( { 0 }) {
 	//convert ZipCode to value : 95014 ->> 0b10100, 0b01010 ,....
 	//1; 379
 // 9, 5,0,1,4
 	//9 -> 10000,...
 	//1000,100,10,1
-//	for (int i = 0; i < zipCode.getValue().size(); i++) {///  0
-		for (auto& digit:zipCode.getValue()){
-			this->value.back() = BarCode::convert.at(digit);
-			std::cout <<(*this)<<std::endl;
-
-		//this->value.at(i) = BarCode::convert.at(zipCode. getValue(). at(i));
+	for (auto &digit : zipCode.getValue()) {
+		this->value.push_back(BarCode::convert.at(digit));
 	}
-//	this->value.at(this->value.size()) =this->getKey(zipCode);
-	this->value.back()=BarCode::getKey(zipCode);
-//	this->value[this->value.size()] =BarCode::convert.at(zipCode.getKey());
-
-	//*(this->value.end()) =BarCode::convert.at(zipCode.getKey());
-
+	this->value.push_back(BarCode::getKey(zipCode));
 }
 
 BarCode::~BarCode() {
@@ -39,37 +32,37 @@ BarCode::~BarCode() {
 #include <numeric> //std::accumulate
 #include <cmath> //modf
 
-const std::array<Code, ZipCode::LENGTH + 1>& BarCode::getValue() const {
+const std::vector<Code>& BarCode::getValue() const {
 	return value;
 }
 
 Code BarCode::getKey(const ZipCode zipCode) {
 	zipCode.getValue();
-	double sum=
-		//calcul de la somme des  digits
-		std::accumulate((int*)(zipCode.getValue().begin()),	(int*)(zipCode.getValue().end()),0);
-//	std::accumulate(zipCode.getValue().begin(),	zipCode.getValue().end(),0);
-
-	double partieEntiere=0.0;
+	double sum =
+	//calcul de la somme des  digits
+			std::accumulate((int*) (zipCode.getValue().begin()),
+					(int*) (zipCode.getValue().end()), 0);
+	double partieEntiere = 0.0;
 	//récupération de la partie décimale (après la virgule)
-	double partieDecimale=modf(sum/10.0,&partieEntiere);
+	double partieDecimale = modf(sum / 10.0, &partieEntiere);
 	//
-	int cle=(int)(10.0*
-			//calcul du complément pour obtenir une unité
+	int cle = (int) (10.0 *
+	//calcul du complément pour obtenir une unité
 			(1.0 - partieDecimale)
-			//ajouter 0.5 pour évitr arrondi valeur inférieurs lors du cast
-			+0.5)
-		//modulo 10 pour obtenir 0 si partie décimale =0
-		%10;
-	return BarCode::convert.at((Digit)cle);
+	//ajouter 0.5 pour évitr arrondi valeur inférieurs lors du cast
+			+ 0.5)
+	//modulo 10 pour obtenir 0 si partie décimale =0
+			% 10;
+	return BarCode::convert.at((Digit) cle);
 }
 #include <iomanip>
 #include <bitset>
 std::ostream& operator<<(std::ostream &os, BarCode &b) {
+	os << "1 ";
 	for (auto &code : b.getValue()) {
-		std::cout << std::bitset<5>((int)code)<<' ';
-	//	os << std::setw( 5) << std::setbase(2)<< (int) code<<' ';
+		os <<  std::bitset<5>((int) code) << ' ';
 	}
+	os << '1';
 	return os;
 }
 
@@ -81,36 +74,29 @@ std::ostream& operator<<(std::ostream &os, BarCode &b) {
 #include <sstream>
 #include <string>
 #include <map>
+
 #include <cassert>
 
 int main(int argc, char **argv) {
-	BarCode barCode(ZipCode(95014));
-	std::cout << barCode << std::endl;
-	/*
-	std::map<ZipCode,std::string> testCases={
-			{ZipCode(0),"00000"}};
-	*/
-	/*
-			{1,"00001"},
-			{12,"00012"},
-			{123,"00123"},
-			{1234,"01234"},
-			{12345,"12345"}
+	std::map<ZipCode*,std::string> testCases={
+			{new ZipCode(0),"1 11000 11000 11000 11000 11000 11000 1"},
+			{new ZipCode(1),"1 11000 11000 11000 11000 00011 10100 1"},
+			{new ZipCode(12),"1 11000 11000 11000 00011 00101 10001 1"},
+			{new ZipCode(123),"1 11000 11000 00011 00101 00110 01001 1"},
+			{new ZipCode(1234),"1 11000 00011 00101 00110 01001 11000 1"},
+			{new ZipCode(12345),"1 00011 00101 00110 01001 01010 01010 1"},
+			{new ZipCode(6789),"1 11000 01100 10001 10010 10100 11000 1"}
 	};
-	*/
-	/*
 	for(auto const testCase:testCases){
-		ZipCode zipCode(testCase.first);
-	//zipCode.operator<<(std::cout);// operator << as member  : friend not needed
-	//	std::cout << zipCode << std::endl;
+		BarCode barCode(*testCase.first);
+	//std::cout << barCode << std::endl;
 		std::ostringstream oss;
-		oss <<zipCode ;
+		oss <<barCode ;
 	assert(oss.str()==testCase.second);
 	}
-	*/
+
 	return 0;
 }
 
 #endif
-
 

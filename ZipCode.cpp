@@ -47,7 +47,7 @@ std::ostream& operator<<(std::ostream &os, ZipCode &z) {
 
 #ifdef _ZIPCODE_UT_
 /*
- g++ -D _ZIPCODE_UT_ -o ZipCodeUt ZipCode.cpp -std=c++14 -I ./ && ./ZipCodeUt
+g++ -D _ZIPCODE_UT_ -o ZipCodeUt ZipCode.cpp -std=c++14 -I ./ && ./ZipCodeUt
  */
 #include <iostream>
 #include <sstream>
@@ -62,7 +62,8 @@ int main(int argc, char **argv) {
 			{12,"00012"},
 			{123,"00123"},
 			{1234,"01234"},
-			{12345,"12345"}
+			{12345,"12345"},
+			{6789,"06789"}
 	};
 	for(auto const testCase:testCases){
 		ZipCode zipCode(testCase.first);
