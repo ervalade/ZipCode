@@ -79,7 +79,6 @@ std::ostream& operator<<(std::ostream &os, BarCode &b) {
 
 int main(int argc, char **argv) {
 	std::map<ZipCode*,std::string> testCases={
-			{new ZipCode(0),"1 11000 11000 11000 11000 11000 11000 1"},
 			{new ZipCode(1),"1 11000 11000 11000 11000 00011 10100 1"},
 			{new ZipCode(12),"1 11000 11000 11000 00011 00101 10001 1"},
 			{new ZipCode(123),"1 11000 11000 00011 00101 00110 01001 1"},
