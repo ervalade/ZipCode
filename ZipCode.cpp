@@ -6,40 +6,73 @@
  */
 
 #include <ZipCode.h>
+const std::map<int, Digit> ZipCode::convert = { { 1, Digit::one }, { 2,
+		Digit::two }, { 3, Digit::three }, { 4, Digit::four },
+		{ 5, Digit::five }, { 6, Digit::six }, { 7, Digit::seven }, { 8,
+				Digit::eight }, { 9, Digit::nine }, { 0, Digit::zero } };
 //const int ZipCode::LENGTH = 5;
 
-ZipCode::ZipCode(const unsigned int value) { //liste d'initialisation
+ZipCode::ZipCode(const unsigned int zipValue) { //liste d'initialisation
 	//convert int to std::array<Digit,5>
 	//1000
-	for (int i = 10000; i > 0; i /= 10) {
+	int value = zipValue;
+	for (int i = 0, unit = 10000; i < ZipCode::LENGTH; i++, unit /= 10) {
+		this->value.at(i) = ZipCode::convert.at(value / unit);
+		value %= unit;
 	}
 }
 
 ZipCode::~ZipCode() {
 	// TODO Auto-generated destructor stub
 }
-/* // NOT NEEDED ANYMORE
-#include <UtilsCBarres.h>
 
-std::string ZipCode::toString() {
-	std::string rs;
-	int cp = this->value;
-	while (cp != 0) {
-		rs += UtilsCBarres::cvchiffre(UtilsCBarres::xchiffre(cp));
-		UtilsCBarres::xdiviser(cp);
-	}
-	while (rs.size() < UtilsCBarres::LONGUEUR_CODE_POSTAL) {
-		rs += "0";
-	}
-	UtilsCBarres::renverserTexte(rs);
-	return rs;
+const std::array<Digit, ZipCode::LENGTH>& ZipCode::getValue() const {
+	return value;
 }
-*////
-int ZipCode::getKey() {
-	int cle = 0;
-	int s = UtilsCBarres::sommeChiffres(this->value);
-	if (UtilsCBarres::xchiffre(s) != 0) {
-		cle = (UtilsCBarres::xchiffre(s / 10) + 1) * 10 - s;
+/* operator << as member : friend not needed
+ std::ostream & ZipCode::operator<<(std::ostream & os) {
+ for (int i = 0; i < ZipCode::LENGTH; ++i) {
+ os << (int)this->value.at(i);
+ }
+ return os;
+ }
+ */
+std::ostream& operator<<(std::ostream &os, ZipCode &z) {
+	//z.operator <<(os);// operator << as member  : friend not needed
+	for (auto &digit : z.getValue()) {
+		os << (int) digit;
 	}
-	return cle;
+	return os;
 }
+
+#ifdef _ZIPCODE_UT_
+/*
+ g++ -D _ZIPCODE_UT_ -o ZipCodeUt ZipCode.cpp -std=c++14 -I ./ && ./ZipCodeUt
+ */
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <map>
+#include <cassert>
+
+int main(int argc, char **argv) {
+	std::map<int,std::string> testCases={
+			{0,"00000"},
+			{1,"00001"},
+			{12,"00012"},
+			{123,"00123"},
+			{1234,"01234"},
+			{12345,"12345"}
+	};
+	for(auto const testCase:testCases){
+		ZipCode zipCode(testCase.first);
+	//zipCode.operator<<(std::cout);// operator << as member  : friend not needed
+	//	std::cout << zipCode << std::endl;
+		std::ostringstream oss;
+		oss <<zipCode ;
+	assert(oss.str()==testCase.second);
+	}
+	return 0;
+}
+
+#endif

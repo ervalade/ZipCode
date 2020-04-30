@@ -11,7 +11,7 @@
 #include <array>
 #include <map>
 
-enum class Code {
+enum class Code:int8_t {
 	one = 0b00011,
 	two = 0b00101,
 	three = 0b00110,
@@ -27,14 +27,16 @@ class BarCode {
 
 private:
 	std::array<Code, ZipCode::LENGTH+1> value;//+1 for zip code key
-	static const std::map<int, Code> convert;
+	static const std::map<Digit,Code> convert;//static-> défini une seule fois appelée variable (attribut) de classe
 
 public:
 	BarCode(ZipCode zipCode);
 	virtual ~BarCode();
-	const std::array<Code, 5>& getValue() const;
-	void setValue(const std::array<Code, 5> &value);
+	friend std::ostream & operator<<(std::ostream & os,BarCode& b);
+	const std::array<Code, ZipCode::LENGTH + 1>& getValue() const;
 
+private:
+	Code getKey(const ZipCode zipCode);//static-> défini une seule fois appelée méthode de classe
 };
 
 #endif /* BARCODE_H_ */
