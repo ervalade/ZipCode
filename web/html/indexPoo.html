@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="../js/BarCodeViewClass.js">
+</script>
+<title>Zip code to Bar code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body onload="barCodeView=new BarCodeView(100,500,1,document.body);">
+	<label for="fname">Zip code to convert:</label>
+	<br>
+	<input type="text" id="zipCode" name="zipCode" value="1010">
+	<button onclick="barCodeView.update(document.getElementById('zipCode').value)">		<p>get Bar code</p>	</button>
+</body>
+
+</html>
