@@ -30,24 +30,24 @@ enum class Digit {
 	eight = 8,
 	nine = 9,
 	zero = 0
-} ;
+};
 #include <array>
 #include <iostream>
 
 class ZipCode {
 public:
-	static const int LENGTH=5;//static-> défini une seule fois appelée variable (attribut) de classe
+	static const int LENGTH = 5; //static-> défini une seule fois appelée variable (attribut) de classe
 	//std::ostream & operator<<(std::ostream & os);operator << as member : friend not needed
-	friend std::ostream & operator<<(std::ostream & os,ZipCode& z);
+	friend std::ostream& operator<<(std::ostream &os, const ZipCode &z);
 
 private:
-	std::array<Digit,ZipCode::LENGTH> value;//défini pour chaque objet (instance de classe) appelée variable d'instance
+	std::array<Digit, ZipCode::LENGTH> value;//défini pour chaque objet (instance de classe) appelée variable d'instance
 	static const std::map<int, Digit> convert;//static-> défini une seule fois appelée variable (attribut) de classe
 
 public:
-	ZipCode(const unsigned  int zipValue=0);//construteur : appeler automatiquement à l'instanciation
+	ZipCode(const unsigned int zipValue = 0);//construteur : appeler automatiquement à l'instanciation
 	const std::array<Digit, ZipCode::LENGTH>& getValue() const;
-	virtual ~ZipCode();//destructeur appeler automatiquement à la suppression
+	virtual ~ZipCode();	//destructeur appeler automatiquement à la suppression
 };
 
 #endif /* ZIPCODE_H_ */

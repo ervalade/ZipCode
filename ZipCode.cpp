@@ -39,7 +39,7 @@ const std::array<Digit, ZipCode::LENGTH>& ZipCode::getValue() const {
  return os;
  }
  */
-std::ostream& operator<<(std::ostream &os, ZipCode &z) {
+std::ostream& operator<<(std::ostream &os, const ZipCode &z) {
 	//z.operator <<(os);// operator << as member  : friend not needed
 	for (auto &digit : z.getValue()) {
 		os << (int) digit;

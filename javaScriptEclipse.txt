@@ -1,0 +1,36 @@
+7
+Update  nodejs
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+To set up Eclipse to run JavaScript files:
+
+In Eclipse, got to Run > External Tools > External Tool Configurations
+
+Double click on Program to open a new configuration and name your new configuration (ex. Node_Config)
+
+Figure out where you have node.js installed. Paste the results in the 'Location' box in Eclipse.
+ (If you haven't installed node, do so here)
+
+Mac: in the command line, run which node.
+Windows: in the command line, run where node, or see this for more/different windows advice
+Fill in the following:
+
+Working Directory: ${container_loc}
+Arguments: ${resource_name}
+Click apply, and then close.
+
+Now, in the main Eclipse screen, find the play button with a red toolbox (next to the regular play button). 
+When you have a js file open that you want to run, click this and it will be just like running it from 
+your console using node.
+
+
+
+Javascript completion
+ Window | Preferences |  JavaScript | Editor | Content Assist.
+ 	check all check boxes
+Window | Preferences |  JavaScript | Editor | Content Assist.|Advanced
+ 	 	check all check boxes
+ 	
+
+
