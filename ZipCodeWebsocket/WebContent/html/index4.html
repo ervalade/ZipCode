@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+#barCode {
+	height: 150px;
+	width: 500px;
+	border: 1px solid black;
+}
+</style>
+
+<head>
+<title>Zip code to Bar code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<label for="fname">Zip code to convert:</label>
+	<br>
+	<input type="text" id="zipCode" name="zipCode">
+	<button onclick="toBarCode()">
+		<p>get Bar code</p>
+	</button>
+	<canvas id="barCode" height="150" width="500"
+		style="border: 1px solid black;">Your browser does not support the HTML5 canvas tag.</canvas>
+	<script>
+            function toBarCode() {
+            	const SPACE = 5;
+            	var startAt=10;
+            	const HORIZONTAL_OFFSET_FOR_0=10;
+                const ZIP_CODE=document.getElementById("zipCode").value;
+            	var barCodeView= document.getElementById("barCode");
+            	var ctx = barCodeView.getContext("2d");
+            	ctx.clearRect(0, 0, barCodeView.width, barCodeView.height);//erase previous bar code
+            	ctx.lineWidth = 1;
+            	var startAt=10;
+            	for (let char of ZIP_CODE){
+            		if (char === '1') {
+            			ctx.moveTo(startAt, 0);
+            			ctx.lineTo(startAt, barCodeView.height);
+            		} else {
+            			ctx.moveTo(startAt,HORIZONTAL_OFFSET_FOR_0);
+            			ctx.lineTo(startAt, (barCodeView.height - HORIZONTAL_OFFSET_FOR_0));
+            		}
+            		ctx.closePath();// if not bars are gray !
+            		//ctx.translate(SPACE,0);//pb with clearRect
+            		startAt+=SPACE;
+            	}
+            		ctx.stroke();
+            }
+
+        </script>
+</body>
+
+</html>

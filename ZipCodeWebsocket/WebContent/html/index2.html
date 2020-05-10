@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Zip code to Bar code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<label for="fname">Zip code to convert:</label>
+	<br>
+	<input type="text" id="zipCode" name="zipCode">
+	<button>
+		<p>get Bar code</p>
+	</button>
+	<canvas id="barCode" height="150" width="500"
+		style="border: 1px solid black;">Your browser does not support the HTML5 canvas tag.</canvas>
+	<script>
+		const SPACE = 5;
+		const START_AT = 10;
+		const HORIZONTAL_OFFSET_FOR_0 = 10;
+		var barCodeView = document.getElementById("barCode");
+		var ctx = barCodeView.getContext("2d");
+		ctx.lineWidth = 1;
+		ctx.moveTo(START_AT, 0);
+		ctx.lineTo(START_AT, barCodeView.height);
+		ctx.closePath();//if not bar is gray !
+		ctx.moveTo(START_AT + 10, HORIZONTAL_OFFSET_FOR_0);
+		ctx.lineTo(START_AT + 10,
+				(barCodeView.height - HORIZONTAL_OFFSET_FOR_0));
+		ctx.closePath();
+		ctx.stroke();
+	</script>
+</body>
+
+</html>

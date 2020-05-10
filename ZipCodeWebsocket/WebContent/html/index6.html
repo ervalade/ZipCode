@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Zip code to Bar code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+// setup websocket with callbacks
+var ws = new WebSocket('ws://127.0.0.1:8080/');
+ws.onopen = function() {
+		document.getElementById('title').innerHTML='Ready to convert Zip code';
+		document.getElementById('title').style.color='green';
+		document.getElementById('getBarCode').disabled=false;
+};
+ws.onclose = function() {};
+ws.onmessage = function(event){
+	update(event.data);
+};
+function send(){
+		ws.send(document.getElementById('zipCode').value);
+};
+function update(barCode) {
+	const SPACE = 5;
+	var startAt=10;
+	const HORIZONTAL_OFFSET_FOR_0=10;
+	
+	var barCodeView= document.getElementById("barCode");
+	var ctx = barCodeView.getContext("2d");
+	ctx.clearRect(0, 0, barCodeView.width, barCodeView.height);
+	ctx.lineWidth = 1;
+	var startAt=10;
+
+	for (let char of barCode){
+		switch (char) {
+		case '1':
+			ctx.moveTo(startAt, 0);
+			ctx.lineTo(startAt, barCodeView.height);
+			break;
+		case '0':
+			ctx.moveTo(startAt,HORIZONTAL_OFFSET_FOR_0);
+			ctx.lineTo(startAt, (barCodeView.height - HORIZONTAL_OFFSET_FOR_0));
+			break;
+		case ' ':
+			startAt+=SPACE;
+			break;
+		default:
+			break;
+		}
+		ctx.closePath();// if not bars are gray !
+		//ctx.translate(SPACE,0);//pb with clearRect
+		startAt+=SPACE;
+	}
+		ctx.stroke();
+}
+		</script>
+</head>
+
+<body>
+	<label for="fname" id="title" style="color: red;">waiting for
+		ZipCode converter server</label>
+	<br>
+	<input type="text" id="zipCode" name="zipCode">
+	<button id="getBarCode" disabled onclick="send()">
+		<p>get Bar code</p>
+	</button>
+	<canvas id="barCode" width="500" height="150"
+		style="border: 1px solid black">Your browser does not support the HTML5 canvas tag.</canvas>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+Pré requis
+	installer bluefish et/ou brackets : HTML editor
+	installer kazam
+Ressources
+	HTML canvas
+		https://www.html5canvastutorials.com/tutorials/html5-canvas-element/
+		https://www.w3schools.com/html/html5_canvas.asp
+		https://www.w3schools.com/graphics/canvas_intro.asp
+		https://developer.mozilla.org/fr/docs/Web/HTML/Canvas
+To Do
+	index.html pour ZipCode
+		1- champ texte+bouton+canvas vide
+			index.html.1.png
+		2- dessiner 2 barres verticales de tailles différentes dans le canvas
+			index.html.2.png
+		3- les barres apparaissent suite à l'appui sur le bouton
+---------------- 1,2,3, done last week
+		4- saisir un code bar dans le champs texte : suite de 0 et 1 par
+			bloc de 5
+			le convertir en barre dans le canvas suite à appui sur le bouton
+---------------- 4, done last week
+		5- utilisation du websocketd
+				écrire un programme ZipCode.cpp
+					qui lit (cin) le zip code reçu via 
+					la fonction javascript ws.send() de websocketd
+					puis écrit (cout) sa valeur convertie en binaire (succession de 1 et 0)
+					(aide : http://www.cplusplus.com/reference/bitset/bitset/bitset/)
+					qui sera reçu via la fonction javascript ws.onmessage(data) de websocketd
+
+				le bouton 'get bar code' de la page html sert à envoyer
+				le zip code au programme ZipCode connecté au websocketd 
+				(http://websocketd.com/) via 
+				la fonction javascript ws.send() de websocketd
+				(aide : 
+					- https://developer.mozilla.org/fr/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
+					- https://github.com/joewalnes/websocketd/wiki/CPP-Input-Output-Example
+					  fin de la page
+				)
+		6 - remplacer le ZipCode.cpp par le programme fourni par le profs
+			ZipCodeBinary.zip
+
+ A rendre 
+	une capture image pour 1,2
+		kazam
+			Capture d'écran, fenêtre
+				votreNom_index.html.1.png
+				votreNom_index.html.2.png
+	une capture vidéo pour 3,4,5,6
+		kazam
+			Capture vidéo, fenêtre
+			to end capture, go to the top of screen, cd on camera icon, 
+			terminer l'enregistrement
+				votreNom_index.html.3.mp4
+				votreNom_index.html.4.mp4
+				votreNom_index.html.5.mp4
+				votreNom_index.html.6.mp4
+
+Pour les plus interessés
+	indexPoo.html fourni -> faire en sorte que ça marche !	
+	
