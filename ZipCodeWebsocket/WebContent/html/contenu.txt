@@ -38,6 +38,11 @@ To Do
 				)
 		6 - remplacer le ZipCode.cpp par le programme fourni par le profs
 			ZipCodeBinary.zip
+		7 - déplacer le code javascript dans deux fichiers source javascript
+			websocket.js : contient les callbacks liés au websocket
+			BarCodeView.js : contient la fonction d'affichage du code barre 
+			les inclures dans le bloc head de la page html 
+			(aide : <script type="text/javascript" src="fichier.js"></script>)
 
  A rendre 
 	une capture image pour 1,2

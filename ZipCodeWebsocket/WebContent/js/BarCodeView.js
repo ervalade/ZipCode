@@ -1,24 +1,33 @@
-function toBarCode() {
-	const ZIP_CODE=document.getElementById("zipCode").value;
-	var style = window.getComputedStyle(document.getElementById("barCode"));
-	const HEIGHT_PX=style.getPropertyValue("height");
-	// remove px for computation and convert to int base 10
-	const  HEIGHT = parseInt(HEIGHT_PX.replace('px', ''),10);
-	const  SPACE = 5;
-	var ctx = document.getElementById("barCode").getContext("2d");
-	ctx.lineWidth = 1;
-	const START_AT=10;
+function update(barCode) {
+	const SPACE = 5;
+	var startAt=10;
 	const HORIZONTAL_OFFSET_FOR_0=10;
-	for (let char of ZIP_CODE){
-		if (char === '1') {
-			ctx.moveTo(START_AT, 0);
-			ctx.lineTo(START_AT, HEIGHT);
-		} else {
-			ctx.moveTo(START_AT, HORIZONTAL_OFFSET_FOR_0);
-			ctx.lineTo(START_AT, (HEIGHT- HORIZONTAL_OFFSET_FOR_0));
+	
+	var barCodeView= document.getElementById("barCode");
+	var ctx = barCodeView.getContext("2d");
+	ctx.clearRect(0, 0, barCodeView.width, barCodeView.height);
+	ctx.lineWidth = 1;
+	var startAt=10;
+
+	for (let char of barCode){
+		switch (char) {
+		case '1':
+			ctx.moveTo(startAt, 0);
+			ctx.lineTo(startAt, barCodeView.height);
+			break;
+		case '0':
+			ctx.moveTo(startAt,HORIZONTAL_OFFSET_FOR_0);
+			ctx.lineTo(startAt, (barCodeView.height - HORIZONTAL_OFFSET_FOR_0));
+			break;
+		case ' ':
+			startAt+=SPACE;
+			break;
+		default:
+			break;
 		}
-		ctx.stroke();
-		// start=start+space;
-		ctx.translate(SPACE,0);
+		ctx.closePath();// if not bars are gray !
+		//ctx.translate(SPACE,0);//pb with clearRect
+		startAt+=SPACE;
 	}
+		ctx.stroke();
 }

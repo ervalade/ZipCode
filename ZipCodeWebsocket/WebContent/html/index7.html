@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Zip code to Bar code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../js/websocket.js"></script>
+<script type="text/javascript" src="../js/BarCodeView.js"></script>
+</head>
+
+<body>
+
+	<label for="fname" id="title" style="color: red;">waiting for
+		ZipCode converter server</label>
+	<br>
+	<input type="text" id="zipCode" name="zipCode">
+	<button id="getBarCode" disabled onclick="send()">
+		<p>get Bar code</p>
+	</button>
+	<canvas id="barCode" width="500" height="150"
+		style="border: 1px solid black">Your browser does not support the HTML5 canvas tag.</canvas>
+</body>
+
+</html>
