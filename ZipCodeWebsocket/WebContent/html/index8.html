@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Zip code to Bar code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../js/websocket8.js"></script>
+<script type="text/javascript" src="../js/BarCodeViewClass.js">
+//var barCodeView=new BarCodeViewClass(100,500,1,document.body);
+</script>
+
+</head>
+<body
+	onload="barCodeView=new BarCodeViewClass(100,500,1,document.body);">
+
+	<label for="fname" id="title" style="color: red;">waiting for
+		ZipCode converter server</label>
+	<br>
+	<input type="text" id="zipCode" name="zipCode">
+	<button id="getBarCode" disabled onclick="send()">
+		<p>get Bar code</p>
+	</button>
+</body>
+</html>

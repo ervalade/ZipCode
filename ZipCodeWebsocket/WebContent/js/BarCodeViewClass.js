@@ -1,45 +1,52 @@
-class BarCodeView {
+class BarCodeViewClass {
 	#height;
 	#width;
 	#border;
-	#html='<canvas id="barCode" style="height:%hpx;width:%wpx;border:%bpx solid black;">Your browser does not support the HTML5 canvas tag.</canvas>';
+	#html = '<canvas id="barCode" height="%h" width="%w"style="border:%bpx solid black;">Your browser does not support the HTML5 canvas tag.</canvas>';
 	#parent;
-	constructor(height,width,border,parent)
-	{
-		this.#height=height;
-		this.#width=width;
-		this.#border=border;
-		this.#html=this.#html.replace("%h",this.#height);
-		this.#html=this.#html.replace("%w",this.#width);
-		this.#html=this.#html.replace("%b",this.#border);
-		parent.insertAdjacentHTML('beforeend',this.html);
+	constructor(height, width, border, parent) {
+		this.#height = height;
+		this.#width = width;
+		this.#border = border;
+		this.#html = this.#html.replace("%h", this.#height);
+		this.#html = this.#html.replace("%w", this.#width);
+		this.#html = this.#html.replace("%b", this.#border);
+		parent.insertAdjacentHTML('beforeend', this.#html);
 	}
-	get height(){return this.#height;}
-	get width(){return this.#width;}
-	get html(){return this.#html;}
+	get height() { return this.#height; }
+	get width() { return this.#width; }
+	get html() { return this.#html; }
 
-	update(value) {
-		// remove px for computation and convert to int base 10
-		const  SPACE = 5;
-		var ctx = document.getElementById("barCode").getContext("2d");
+	update(barCode) {
+		const SPACE = 5;
+		var startAt = 10;
+		const HORIZONTAL_OFFSET_FOR_0 = 10;
+		var barCodeView = document.getElementById("barCode");
+		var ctx = barCodeView.getContext("2d");
+		ctx.clearRect(0, 0, this.#width, this.#height);
 		ctx.lineWidth = 1;
-		const START_AT=10;
-		const HORIZONTAL_OFFSET_FOR_0=10;
-		for (let char of value){
-			if (char === '1') {
-				ctx.moveTo(START_AT, 0);
-				ctx.lineTo(START_AT, this.#height);
-			} else {
-				ctx.moveTo(START_AT, HORIZONTAL_OFFSET_FOR_0);
-				ctx.lineTo(START_AT, this.#height- HORIZONTAL_OFFSET_FOR_0);
+		var startAt = 10;
+
+		for (let char of barCode) {
+			switch (char) {
+				case '1':
+					ctx.moveTo(startAt, 0);
+					ctx.lineTo(startAt, this.#height);
+					break;
+				case '0':
+					ctx.moveTo(startAt, HORIZONTAL_OFFSET_FOR_0);
+					ctx.lineTo(startAt, (this.#height - HORIZONTAL_OFFSET_FOR_0));
+					break;
+				case ' ':
+					startAt += SPACE;
+					break;
+				default:
+					break;
 			}
-
-			ctx.stroke();
-			// start=start+space;
-			ctx.translate(SPACE,0);
+			ctx.closePath();// if not bars are gray !
+			//ctx.translate(SPACE,0);//pb with clearRect
+			startAt += SPACE;
 		}
+		ctx.stroke();
 	}
-};
-
-//barCodeView=new BarCodeView(100,500,1,'document.body');
-//console.log(barCodeView.html);
+}

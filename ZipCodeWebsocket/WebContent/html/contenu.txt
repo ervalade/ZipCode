@@ -31,6 +31,7 @@ To Do
 				le zip code au programme ZipCode connecté au websocketd 
 				(http://websocketd.com/) via 
 				la fonction javascript ws.send() de websocketd
+				
 				(aide : 
 					- https://developer.mozilla.org/fr/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
 					- https://github.com/joewalnes/websocketd/wiki/CPP-Input-Output-Example
@@ -39,10 +40,24 @@ To Do
 		6 - remplacer le ZipCode.cpp par le programme fourni par le profs
 			ZipCodeBinary.zip
 		7 - déplacer le code javascript dans deux fichiers source javascript
-			websocket.js : contient les callbacks liés au websocket
-			BarCodeView.js : contient la fonction d'affichage du code barre 
+			websocket.js : contient les callbacks liés au websocket				
+			BarCodeView.js : contient la fonction d'affichage (update(barCode)) du code barre 
+			
 			les inclures dans le bloc head de la page html 
 			(aide : <script type="text/javascript" src="fichier.js"></script>)
+		8 - POO avec javascript
+			(aide : https://www.w3schools.com/js/js_classes.asp)
+			coder une classe javascript BarCodeViewClass dans le fichier BarCodeViewClass.js
+				attributs : height, width,border, parent,html
+						html contient le code html du canvas
+				constructeur : paramètres -> height, width,border, parent
+						initialise les attributs
+						insère les valeurs height, width, border dans html
+						ajouter le html avant la fin du parent 
+				methode : update(barcode){} dessine le bar code -> réutilisation du code étape précédente
+			modifier la page html
+				inclure nouveau fichier javascript à la place de BarCodeView.js
+				créer une instance  de la classe BarCodeViewClass au chargement de la page html
 
  A rendre 
 	une capture image pour 1,2
@@ -59,6 +74,8 @@ To Do
 				votreNom_index.html.4.mp4
 				votreNom_index.html.5.mp4
 				votreNom_index.html.6.mp4
+				votreNom_index.html.7.mp4
+				
 
 Pour les plus interessés
 	indexPoo.html fourni -> faire en sorte que ça marche !	
