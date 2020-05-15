@@ -37,6 +37,18 @@ To Do
 					- https://github.com/joewalnes/websocketd/wiki/CPP-Input-Output-Example
 					  fin de la page
 				)
+				
+					           réseau            
+				PC client						PC serveur
+				Navigateur						websocketd -> remplace le clavier et l'écran =Bot
+													ZipCode
+				ws.send(data)		------->         	std::cin >> zipCode   flux d'entrée
+				  data=zipCode html
+				ws.onmessage(event) <------				std::cout<< barcode   flux de sortie
+					invoquer la fonction
+					d'affichage du barcode
+					event.data
+														
 		6 - remplacer le ZipCode.cpp par le programme fourni par le profs
 			ZipCodeBinary.zip
 		7 - déplacer le code javascript dans deux fichiers source javascript
@@ -67,16 +79,15 @@ To Do
 				votreNom_index.html.2.png
 	une capture vidéo pour 3,4,5,6
 		kazam
-			Capture vidéo, fenêtre
+			Capture vidéo, fenêtre ou pas
 			to end capture, go to the top of screen, cd on camera icon, 
 			terminer l'enregistrement
 				votreNom_index.html.3.mp4
 				votreNom_index.html.4.mp4
-				votreNom_index.html.5.mp4
+				votreNom_index.html.5.mp4 Web + Websocketd
 				votreNom_index.html.6.mp4
-				votreNom_index.html.7.mp4
-				
-
-Pour les plus interessés
-	indexPoo.html fourni -> faire en sorte que ça marche !	
+				votreNom_index.html.7.mp4 avec les outils de developpement du navigateur
+				votreNom_index.html.8.mp4 avec les outils de developpement du navigateur
+	une archive contenant les fichiers sources cpp, html et javascript : votreNom.zip
+			
 	
