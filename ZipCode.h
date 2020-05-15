@@ -33,21 +33,24 @@ enum class Digit {
 };
 #include <array>
 #include <iostream>
-
+#include <cmath>
 class ZipCode {
 public:
 	static const int LENGTH = 5; //static-> défini une seule fois appelée variable (attribut) de classe
+	static const std::string OUT_OF_RANGE_MSG;
 	//std::ostream & operator<<(std::ostream & os);operator << as member : friend not needed
 	friend std::ostream& operator<<(std::ostream &os, const ZipCode &z);
-
+	//typedef std::array<Digit, ZipCode::LENGTH> Digits; //C style
+	using Digits=std::array<Digit, ZipCode::LENGTH>; //modern C++ style
 private:
-	std::array<Digit, ZipCode::LENGTH> value;//défini pour chaque objet (instance de classe) appelée variable d'instance
-	static const std::map<int, Digit> convert;//static-> défini une seule fois appelée variable (attribut) de classe
+	ZipCode::Digits value; //défini pour chaque objet (instance de classe) appelée variable d'instance
+	static const std::map<int, Digit> convert; //static-> défini une seule fois appelée variable (attribut) de classe
 
 public:
-	ZipCode(const unsigned int zipValue = 0);//construteur : appeler automatiquement à l'instanciation
-	const std::array<Digit, ZipCode::LENGTH>& getValue() const;
+	ZipCode(const unsigned int zipValue = 0); //construteur : appeler automatiquement à l'instanciation
+	const ZipCode::Digits& getValue() const;
 	virtual ~ZipCode();	//destructeur appeler automatiquement à la suppression
+	const int getDigitNumber() const;
 };
 
 #endif /* ZIPCODE_H_ */
