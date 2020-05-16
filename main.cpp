@@ -18,8 +18,8 @@ int main(int argc, char **argv) {
 			BarCode barCode(zipCode);
 			std::cout << barCode << std::endl;
 		}
-	} catch (const std::string &e) {
-		std::cerr << e << std::endl;
+	} catch (const std::domain_error &e) {
+		std::cerr << e.what() << std::endl;
 	}
 	return 0;
 }
