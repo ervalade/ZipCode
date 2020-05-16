@@ -7,7 +7,6 @@
 
 #ifndef ZIPCODE_H_
 #define ZIPCODE_H_
-#include <map>
 /*
  * @startuml
  * class ZipCode{
@@ -33,7 +32,9 @@ enum class Digit {
 };
 #include <array>
 #include <iostream>
-#include <cmath>
+#include <map>
+#include <string>
+
 class ZipCode {
 public:
 	static const int LENGTH = 5; //static-> défini une seule fois appelée variable (attribut) de classe

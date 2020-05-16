@@ -7,10 +7,8 @@
 
 #include <ZipCode.h>
 #include <cmath>//pow() : added automatically, right clic, source, Organize includes
-#include <string>
-const std::string ZipCode::OUT_OF_RANGE_MSG = "zip code MUST be between 1 and 99999";
-//	+ ((int) pow(10, ZipCode::LENGTH) - 1);
-
+const std::string ZipCode::OUT_OF_RANGE_MSG = "zip code MUST be between 1 and "
+	+ std::to_string((int) pow(10, ZipCode::LENGTH) - 1);
 const std::map<int, Digit> ZipCode::convert = { { 1, Digit::one }, { 2,
 		Digit::two }, { 3, Digit::three }, { 4, Digit::four },
 		{ 5, Digit::five }, { 6, Digit::six }, { 7, Digit::seven }, { 8,
