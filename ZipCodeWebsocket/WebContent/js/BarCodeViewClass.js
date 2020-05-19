@@ -2,7 +2,7 @@ class BarCodeViewClass {
 	#height;
 	#width;
 	#border;
-	#html = '<canvas id="barCode" height="%h" width="%w"style="border:%bpx solid black;">Your browser does not support the HTML5 canvas tag.</canvas>';
+	#html = '<canvas id="barCode" height="%h" width="%w" style="border:%bpx solid black;">Your browser does not support the HTML5 canvas tag.</canvas>';
 	#parent;
 	constructor(height, width, border, parent) {
 		this.#height = height;

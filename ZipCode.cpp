@@ -23,7 +23,7 @@ ZipCode::ZipCode(const unsigned int zipValue) { //liste d'initialisation
 	if (zipValue < 1 || zipValue >= pow(10, this->value.size()))
 //		throw ZipCode::OUT_OF_RANGE_MSG;
 		throw std::domain_error(ZipCode::OUT_OF_RANGE_MSG);
-	int value = zipValue;
+	int value(zipValue);
 	/*
 	 for (size_t i(0), unit(pow(10, this->value.size() - 1));
 	 i < this->value.size(); i++, unit /= 10) {
@@ -31,7 +31,7 @@ ZipCode::ZipCode(const unsigned int zipValue) { //liste d'initialisation
 	 value %= unit;
 	 }
 	 */
-	unsigned int rank = pow(10, this->value.size() - 1);
+	unsigned int rank(pow(10, this->value.size() - 1));
 	for (auto &digit : this->value) {
 		digit = ZipCode::convert.at(value / rank);
 		value %= rank;
