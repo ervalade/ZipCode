@@ -22,7 +22,9 @@ const std::map<ZipCode::Digit, BarCode::Code> BarCode::CONVERT_DIGIT_TO_CODE = {
 				ZipCode::Digit::eight, BarCode::Code::eight }, {
 				ZipCode::Digit::nine, BarCode::Code::nine }, {
 				ZipCode::Digit::zero, BarCode::Code::zero } };
-const std::array<int,(int)BarCode::Code::nb_bits>  BarCode::BIT_WEIGHTS={7,4,2,1,0};
+const std::array<int,(int)BarCode::Code::nb_bits>  BarCode::BIT_WEIGHTS={0,1,2,4,7};
+
+//const std::array<int,(int)BarCode::Code::nb_bits>  BarCode::BIT_WEIGHTS={0,1,2,4,7};
 
 const std::map<BarCode::Code, ZipCode::Digit> BarCode::CONVERT_CODE_TO_DIGIT = {
 		{ BarCode::Code::one, ZipCode::Digit::one }, { BarCode::Code::two,

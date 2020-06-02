@@ -63,28 +63,28 @@ std::ostream& operator<<(std::ostream &os, const ZipCode &z) {
 }
 
 ZipCode::ZipCode(const BarCode &barCode) {
-/**/
-	for (size_t i(0); i < this->value.size(); i++) {
-		this->value.at(i) = BarCode::CONVERT_CODE_TO_DIGIT.at(
-				barCode.getValue().at(i));
-	}
-	if (BarCode::getKey(*this) != *(barCode.getValue().end()))
-		throw std::domain_error(BarCode::INVALID_CODE_MSG);
-/**/
-	/*
+	/* with conversion table
+	 for (size_t i(0); i < this->value.size(); i++) {
+	 this->value.at(i) = BarCode::CONVERT_CODE_TO_DIGIT.at(
+	 barCode.getValue().at(i));
+	 }
+	 if (BarCode::getKey(*this) != *(barCode.getValue().end()))
+	 throw std::domain_error(BarCode::INVALID_CODE_MSG);
+	 */
+	//with formula given by requirements
 	for (size_t i(0); i < this->value.size(); i++) {
 		int digit(0);
 		std::bitset<(int) BarCode::Code::nb_bits> codeBits(
 				(int) barCode.getValue().at(i));
-		for (size_t b(0); i < codeBits.size(); b++) {
-			digit+= codeBits[b] * BarCode::BIT_WEIGHTS.at(b);
+		for (size_t b(0); b < codeBits.size(); b++) {
+			digit += codeBits[b] * BarCode::BIT_WEIGHTS.at(b);
 		}
-		this->value.at(i)=ZipCode::Digit(digit);
+		digit = (digit == 11) ? 0 : digit;
+		this->value.at(i) = ZipCode::Digit(digit);
 	}
-	*/
 }
 
-#define _ZIPCODE_UT_ //only to enable source, format, don't forget to comment in
+//#define _ZIPCODE_UT_ //only to enable source, format, don't forget to comment in
 #ifdef _ZIPCODE_UT_
 /*
  g++ -D _ZIPCODE_UT_ -o ZipCodeUt BarCode.cpp ZipCode.cpp -std=c++14 -I ./ && ./ZipCodeUt
