@@ -7,9 +7,9 @@
 
 #ifndef BARCODE_H_
 #define BARCODE_H_
-#include <ZipCode.h>
 #include <vector>
 #include <map>
+#include <ZipCode.h>
 
 #include <bitset>
 class BarCode {
@@ -26,21 +26,32 @@ public:
 		eight = 0b10010,
 		nine = 0b10100,
 		zero = 0b11000,
-		nb_bits=5 // used for operator<< to determine bitset length
+		nb_bits = 5, // used for operator<< to determine bitset length
 	};
+	static const std::array<int,(int)BarCode::Code::nb_bits> BIT_WEIGHTS;//for conversion to ZipCode
 	//vector instead of array => no direct dependency with  ZipCode length
 	using Codes=std::vector<BarCode::Code>; //modern C++ style to replace typedef
+	static const std::string INVALID_CODE_MSG;
+	static const std::map< BarCode::Code,ZipCode::Digit> CONVERT_CODE_TO_DIGIT;
+
 private:
-	BarCode::Codes value;
-	static const std::map<ZipCode::Digit, BarCode::Code> convert; //static-> défini une seule fois appelée variable (attribut) de classe
+	BarCode::Codes value;//CONVERT_DIGIT_TO_CODE  CONVERT_STRING_TO_CODE
+	static const std::map<ZipCode::Digit, BarCode::Code> CONVERT_DIGIT_TO_CODE; //static-> défini une seule fois appelée variable (attribut) de classe
+	static const std::map<std::string, BarCode::Code> CONVERT_STRING_TO_CODE;
+	static const char BEGIN_CHAR;
+	static const char END_CHAR;
+	static const char SEPARATOR_CHAR;
+
 public:
-	BarCode(ZipCode zipCode);
+	BarCode(const ZipCode& zipCode);
+	BarCode(std::string barCode);
 	virtual ~BarCode();
 	friend std::ostream& operator<<(std::ostream &os, BarCode &b);
 	const BarCode::Codes& getValue() const;
+	static BarCode::Code getKey(const ZipCode zipCode); //static-> défini une seule fois appelée méthode de classe
 
 private:
-	BarCode::Code getKey(const ZipCode zipCode); //static-> défini une seule fois appelée méthode de classe
+	static bool isSeparator(char c);
 };
 
 #endif /* BARCODE_H_ */

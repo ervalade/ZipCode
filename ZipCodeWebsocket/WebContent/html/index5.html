@@ -11,7 +11,12 @@ ws.onopen = function() {
 		document.getElementById('title').style.color='green';
 		document.getElementById('getBarCode').disabled=false;
 };
-ws.onclose = function() {};
+ws.onclose = function() {
+		document.getElementById('title').innerHTML='waiting for	ZipCode converter server';
+		document.getElementById('title').style.color='red';
+		document.getElementById('getBarCode').disabled=true;
+	
+};
 ws.onmessage = function(event){
 	update(event.data);
 };

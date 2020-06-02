@@ -5,11 +5,14 @@
  *      Author: eric
  */
 
+#include <BarCode.h>
 #include <ZipCode.h>
 #include <cmath>//pow() : added automatically, right clic, source, Organize includes
+#include <stdexcept>
+
 const std::string ZipCode::OUT_OF_RANGE_MSG = "zip code MUST be between 1 and "
 		+ std::to_string((int) pow(10, ZipCode::LENGTH) - 1);
-const std::map<int, ZipCode::Digit> ZipCode::convert = { { 1,
+const std::map<int, ZipCode::Digit> ZipCode::CONVERT_NUMBER_TO_CODE = { { 1,
 		ZipCode::Digit::one }, { 2, ZipCode::Digit::two }, { 3,
 		ZipCode::Digit::three }, { 4, ZipCode::Digit::four }, { 5,
 		ZipCode::Digit::five }, { 6, ZipCode::Digit::six }, { 7,
@@ -18,10 +21,7 @@ const std::map<int, ZipCode::Digit> ZipCode::convert = { { 1,
 //const int ZipCode::LENGTH = 5;
 
 ZipCode::ZipCode(const unsigned int zipValue) { //liste d'initialisation
-	//convert int to std::array<Digit,5>
-	//1000
 	if (zipValue < 1 || zipValue >= pow(10, this->value.size()))
-//		throw ZipCode::OUT_OF_RANGE_MSG;
 		throw std::domain_error(ZipCode::OUT_OF_RANGE_MSG);
 	int value(zipValue);
 	/*
@@ -33,7 +33,7 @@ ZipCode::ZipCode(const unsigned int zipValue) { //liste d'initialisation
 	 */
 	unsigned int rank(pow(10, this->value.size() - 1));
 	for (auto &digit : this->value) {
-		digit = ZipCode::convert.at(value / rank);
+		digit = ZipCode::CONVERT_NUMBER_TO_CODE.at(value / rank);
 		value %= rank;
 		rank /= 10;	//next rang
 	}
@@ -62,10 +62,32 @@ std::ostream& operator<<(std::ostream &os, const ZipCode &z) {
 	return os;
 }
 
-//#define _ZIPCODE_UT_ //only to enable source, format, don't forget to comment in
+ZipCode::ZipCode(const BarCode &barCode) {
+/**/
+	for (size_t i(0); i < this->value.size(); i++) {
+		this->value.at(i) = BarCode::CONVERT_CODE_TO_DIGIT.at(
+				barCode.getValue().at(i));
+	}
+	if (BarCode::getKey(*this) != *(barCode.getValue().end()))
+		throw std::domain_error(BarCode::INVALID_CODE_MSG);
+/**/
+	/*
+	for (size_t i(0); i < this->value.size(); i++) {
+		int digit(0);
+		std::bitset<(int) BarCode::Code::nb_bits> codeBits(
+				(int) barCode.getValue().at(i));
+		for (size_t b(0); i < codeBits.size(); b++) {
+			digit+= codeBits[b] * BarCode::BIT_WEIGHTS.at(b);
+		}
+		this->value.at(i)=ZipCode::Digit(digit);
+	}
+	*/
+}
+
+#define _ZIPCODE_UT_ //only to enable source, format, don't forget to comment in
 #ifdef _ZIPCODE_UT_
 /*
- g++ -D _ZIPCODE_UT_ -o ZipCodeUt ZipCode.cpp -std=c++14 -I ./ && ./ZipCodeUt
+ g++ -D _ZIPCODE_UT_ -o ZipCodeUt BarCode.cpp ZipCode.cpp -std=c++14 -I ./ && ./ZipCodeUt
  */
 #include <iostream>//std::cout
 #include <sstream>//std::ostringstream
@@ -75,7 +97,8 @@ std::ostream& operator<<(std::ostream &os, const ZipCode &z) {
 #include <iomanip>
 int main(int argc, char **argv) {
 	{
-		std::cout << "ZipCode constructor Test -----------------" << std::endl;
+		std::cout << "ZipCode constructor ZipCode(int) Test -----------------"
+				<< std::endl;
 		std::map<int, ZipCode::Digits> testCases = { //
 				{ 1, { ZipCode::Digit::zero, ZipCode::Digit::zero,
 						ZipCode::Digit::zero, ZipCode::Digit::zero,
@@ -137,6 +160,34 @@ int main(int argc, char **argv) {
 			std::ostringstream oss;
 			oss << zipCode;
 			assert(oss.str() == testCase.second);
+		}
+	}
+	{
+		std::map<std::string, ZipCode::Digits> testCases = { //
+				{ "1 11000 01100 10001 10010 10100 11000 1", {
+						ZipCode::Digit::zero, ZipCode::Digit::six,
+						ZipCode::Digit::seven, ZipCode::Digit::eight,
+						ZipCode::Digit::nine } }, {
+						"1 00011 00101 00110 01001 01010 01010 1", {
+								ZipCode::Digit::one, ZipCode::Digit::two,
+								ZipCode::Digit::three, ZipCode::Digit::four,
+								ZipCode::Digit::five } }, {
+						"1 11000 01100 10001 10010 10100 10100 1", { //exception wrong key
+						ZipCode::Digit::zero, ZipCode::Digit::six,
+								ZipCode::Digit::seven, ZipCode::Digit::eight,
+								ZipCode::Digit::nine } } };
+		std::cout
+				<< "ZipCode constructor ZipCode(BarCode) Test -----------------"
+				<< std::endl;
+		for (auto &testCase : testCases) {
+			try {
+				std::cout << "Test stimuli : " << testCase.first << std::endl;
+				//BarCode barCode(ZipCode(testCase.first));
+				ZipCode zipCode(BarCode(testCase.first));
+				assert(zipCode.getValue() == testCase.second);
+			} catch (const std::domain_error &e) {
+				assert(e.what() == BarCode::INVALID_CODE_MSG);
+			}
 		}
 	}
 	return 0;

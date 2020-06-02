@@ -23,7 +23,7 @@
 #include <iostream>
 #include <map>
 #include <string>
-
+class BarCode; // circular dependancy
 class ZipCode {
 public:
 	enum class Digit {
@@ -46,10 +46,11 @@ public:
 	//typedef std::array<Digit, ZipCode::LENGTH> Digits; //C style
 private:
 	ZipCode::Digits value; //défini pour chaque objet (instance de classe) appelée variable d'instance
-	static const std::map<int, ZipCode::Digit> convert; //static-> défini une seule fois appelée variable (attribut) de classe
+	static const std::map<int, ZipCode::Digit> CONVERT_NUMBER_TO_CODE; //static-> défini une seule fois appelée variable (attribut) de classe
 
 public:
 	ZipCode(const unsigned int zipValue = 0) ; //construteur : appeler automatiquement à l'instanciation
+	ZipCode(const BarCode& barCode);
 	const ZipCode::Digits& getValue() const;
 	virtual ~ZipCode();	//destructeur appeler automatiquement à la suppression
 };
